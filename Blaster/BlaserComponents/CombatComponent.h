@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Blaster/HUD/BlasterHUD.h"
 #include "Components/ActorComponent.h"
 #include "CombatComponent.generated.h"
 
@@ -63,14 +64,37 @@ private:
 	bool bFireButtonPressed;
 
 	FVector HitTarget;
-	
-	//HUD and Crosshairs
+
+	bool GetIsSprinting(bool bSprinting);
+
+	bool bSprinting;
+
+	/*
+	 * HUD and Crosshairs
+	 */
+	FHUDPackage HUDPackage;
 
 	float CrosshairVelocityFactor;
 	float CrosshairInAirFactor;
+	float CrosshairAimFactor;
+	float CrosshairShootingFactor;
 
-	bool GetIsSprinting(bool bSprinting);
-	bool bSprinting;
+	/*
+	 * Aiming and FOV
+	 */
+
+	//Field of view when not aiming; set to the camera's base FOV in BeginPlay
+	float DefaultFov;
+
+	float CurrentFOV;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	float ZoomedFOV = 30.f;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	float UnZoomInterpSpeed = 20.f;
+
+	void InterpFOV(float DeltaTime);
 public:	
 
 };
